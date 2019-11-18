@@ -16,10 +16,39 @@ installVBGuest () {
 	apt-get install -y -q virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
 }
 
-setupXfce4 () {
+installOthers () {
 	echo "========================================"
-	echo "Install XFCE4"
+	echo "Installing git, curl.."
+	apt-get -y -q install git curl rxvt-unicode python3-pip
+}
+
+installXfce4 () {
+	echo "========================================"
+	echo "Installing XFCE4.."
 	apt-get install -y -q xfce4
+
+	echo "Installing additional packages for dXFCE4.."
+	
+	echo "Installing whiskermenu.."
+	add-apt-repository ppa:gottcode/gcppa
+    apt-get update
+	apt-get -y -q install xfce4-whiskermenu-plugin
+	
+	echo "Installing arc-theme.."
+	add-apt-repository ppa:noobslab/themes
+	apt-get update
+	apt-get -y -q install arc-theme
+	
+	echo "Installing Papirus icons, fonts.."
+	apt-get -y -q install papirus-icon-theme fonts-liberation
+
+	echo "Installing cursor theme.."
+	add-apt-repository ppa:/dyatlov-igor/la-capitaine
+	apt update
+	apt-get -y -q install la-capitaine-cursor-theme
+
+	echo "Installing fonts.."
+	apt-get install -y -q fonts-hack
 }
 
 installBrowsers () {
@@ -58,18 +87,10 @@ installUtilities(){
 	snap install postman
 }
 
-installOthers () {
+installZsh(){
 	echo "========================================"
-	echo "Installing git, curl.."
-	apt-get -y -q install git curl
-}
-
-
-setupIcons () {
-	echo "========================================"
-	echo "Installing icons.."
-	apt-get -y -q update
-	apt-get -y -q install papirus-icon-theme fonts-liberation
+	echo "Installing zsh.."
+	apt-get install -y -q zsh
 }
 
 #
@@ -78,11 +99,10 @@ setupIcons () {
 
 upgradeBase
 installVBGuest
-setupXfce4
+installOthers
+installXfce4
 installBrowsers
 installIDEs
 installCollaboration
 installUtilities
-installOthers
-#setupDefaults
-setupIcons
+installZsh
