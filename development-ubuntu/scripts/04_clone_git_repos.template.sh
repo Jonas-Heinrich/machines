@@ -5,12 +5,12 @@ source "/vagrant/scripts/common.sh"
 
 # Assumes that git is already installed
 function cloneRepos {
-    mkdir /projects
+    mkdir ~/projects
 
     echo "Cloning sample Github repo.."
-    git clone https://github.com/YOUR_USER_ID/YOUR_PUBLIC_REPOSITORY.git /projects/YOUR_REPO_NAME
+    git clone https://github.com/YOUR_USER_ID/YOUR_PUBLIC_REPOSITORY.git ~/projects/YOUR_REPO_NAME
     echo "Cloning sample Gitlab repo.."
-    git clone https://oauth2:YOUR_ACCESS_TOKEN@gitlab.com/YOUR_USER_ID/YOUR_PRIVATE_REPOSITORY.git /projects/YOUR_REPO_NAME
+    git clone https://oauth2:YOUR_ACCESS_TOKEN@gitlab.com/YOUR_USER_ID/YOUR_PRIVATE_REPOSITORY.git ~/projects/YOUR_REPO_NAME
 }
 
 cloneRepos
