@@ -1,6 +1,10 @@
 #!/bin/bash
 source "/vagrant/scripts/common.sh"
 
+#
+# Base Packages
+#
+
 upgradeBase () {
 	echo "========================================"
 	echo "Updating base system.."
@@ -19,8 +23,23 @@ installVBGuest () {
 installOthers () {
 	echo "========================================"
 	echo "Installing git, curl.."
-	apt-get -y -q install git curl rxvt-unicode python3-pip
+	apt-get -y -q install \
+		git \
+		curl \
+		rxvt-unicode \
+		python3-pip \
+		unzip
 }
+
+installZsh(){
+	echo "========================================"
+	echo "Installing zsh.."
+	apt-get install -y -q zsh
+}
+
+#
+# GUI
+#
 
 installXfce4 () {
 	echo "========================================"
@@ -50,6 +69,10 @@ installXfce4 () {
 	echo "Installing fonts.."
 	apt-get install -y -q fonts-hack
 }
+
+#
+# Applications
+#
 
 installBrowsers () {
 	echo "========================================"
@@ -87,22 +110,65 @@ installUtilities(){
 	snap install postman
 }
 
-installZsh(){
+#
+# Infrastructure
+#
+
+installTerraform(){
 	echo "========================================"
-	echo "Installing zsh.."
-	apt-get install -y -q zsh
+	echo "Installing Terraform.."
+	curl https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip > /tmp/terraform.zip
+	unzip /tmp/terraform.zip
+	mv -f terraform /usr/bin/terraform
+}
+
+installDocker(){
+	echo "========================================"
+	echo "Installing Docker.."
+	apt-get remove docker docker-engine docker.io containerd runc -y
+	apt-get update
+	apt-get install \
+	    apt-transport-https \
+	    ca-certificates \
+	    curl \
+	    gnupg-agent \
+	    software-properties-common -y
+
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+	add-apt-repository \
+	    "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+	apt-get update
+	apt-get install docker-ce docker-ce-cli containerd.io -y
+	docker run hello-world
+}
+
+installDockerCompose(){
+	curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	chmod +x /usr/local/bin/docker-compose
 }
 
 #
 # Execution
 #
 
+# Base packages
 upgradeBase
 installVBGuest
 installOthers
+installZsh
+
+# GUI
 installXfce4
+
+# Applications
 installBrowsers
 installIDEs
 installCollaboration
 installUtilities
-installZsh
+
+# Infrastructure
+installTerraform
+installDocker
+installDockerCompose
