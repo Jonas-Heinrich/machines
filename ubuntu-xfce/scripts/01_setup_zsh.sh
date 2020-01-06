@@ -3,7 +3,7 @@
 
 setupZsh(){
 	echo "========================================"
-	echo "Set zsh as default.."
+	echo "Installing oh-my-zsh.."
 
 	echo "Installing oh-my-zsh"
 	sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh) /home/$USER/.oh-my-zsh"
