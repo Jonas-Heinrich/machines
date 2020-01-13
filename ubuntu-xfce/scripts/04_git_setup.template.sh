@@ -13,4 +13,11 @@ function cloneRepos {
     git clone https://oauth2:YOUR_ACCESS_TOKEN@gitlab.com/YOUR_USER_ID/YOUR_PRIVATE_REPOSITORY.git ~/projects/YOUR_REPO_NAME
 }
 
+function setAuthor {
+    echo "Setting git author.."
+    git config --global user.name "Jonas Heinrich"
+    git config --global user.email "Jonas@example.com"
+}
+
 cloneRepos
+setAuthor
