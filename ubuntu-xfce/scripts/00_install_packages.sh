@@ -113,8 +113,22 @@ installIDEs(){
 	echo "========================================"
 	echo "Installing snapd.."
 	apt-get install -y -q snapd
+
 	echo "Installing Visual Studio Code.."
 	snap install code --classic
+	# Install extensions
+	code --install-extension christian-kohler.path-intellisense
+	code --install-extension DavidAnson.vscode-markdownlint
+	code --install-extension dbaeumer.vscode-eslint
+	code --install-extension esbenp.prettier-vscode
+	code --install-extension mauve.terraform
+	code --install-extension ms-azuretools.vscode-docker
+	code --install-extension ms-python.python
+	code --install-extension ms-vscode.Go
+	code --install-extension PKief.material-icon-theme
+	code --install-extension redhat.vscode-yaml
+
+	PKief.material-icon-theme
 	echo "Installing Pycharm.."
 	sudo snap install pycharm-community --classic
 }
