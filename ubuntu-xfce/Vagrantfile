@@ -1,21 +1,44 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  
+  config.vm.synced_folder ".", "/vagrant", disabled: false, type: "smb"
+
+  # Variables
+  name = "Development Machine - Ubuntu 18.04"
+  cpus = 4
+  memory = 8192 # MB
+
+  # VirtualBox
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "Development Machine - Ubuntu 18.04"
-
+    vb.name = name
+    vb.cpus = cpus
+    vb.memory = memory
+  
+    # Set VRAM
     vb.customize ["modifyvm", :id, "--vram", "128"]
+    # Enable Clipboard
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-
-    vb.memory = 8192
-    vb.cpus = 4
+    # Auto Open GUI
     vb.gui = true
   end
 
-  config.vm.provision "shell", path: "scripts/00_install_packages.sh"
-  config.vm.provision "shell", path: "scripts/01_setup_zsh.sh", privileged: false
-  config.vm.provision "shell", path: "scripts/02_setup_dotfiles.sh", privileged: false
-  config.vm.provision "shell", path: "scripts/03_set_password.sh"
-  config.vm.provision "shell", path: "scripts/04_git_setup.sh", privileged: false
-  config.vm.provision "shell", path: "scripts/05_set_wallpaper.sh", privileged: false
+  # Hyper-V
+  config.vm.provider "hyperv" do |h|
+    h.vmname = name
+    h.cpus = cpus
+    h.memory = memory
+
+    h.enable_virtualization_extensions = true
+    h.linked_clone = true
+  end
+
+  dir = File.expand_path("..", __FILE__)
+  puts "Directory: #{dir}"
+
+  config.vm.provision "shell", path: File.join(dir, "scripts/00_install_packages.sh")
+  config.vm.provision "shell", path: File.join(dir, "scripts/01_setup_zsh.sh"), privileged: false
+  config.vm.provision "shell", path: File.join(dir, "scripts/02_setup_dotfiles.sh"), privileged: false
+  config.vm.provision "shell", path: File.join(dir, "scripts/03_install_vscode_plugins.sh"), privileged: false
+  config.vm.provision "shell", path: File.join(dir, "scripts/04_set_password.sh")
+  config.vm.provision "shell", path: File.join(dir, "scripts/05_git_setup.sh"), privileged: false
+  config.vm.provision "shell", path: File.join(dir, "scripts/06_set_wallpaper.sh"), privileged: false
 end
