@@ -98,6 +98,28 @@ installI3(){
 }
 
 #
+# Languages
+#
+
+installGolang() {
+	echo "========================================"
+	echo "Installing golang.."
+	wget -O /tmp/go.tar.gz https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz
+	tar -C /usr/local -xzf /tmp/go.tar.gz
+
+	# Make available to zsh
+	echo '' >> /home/$USER/.zshrc
+	echo 'export PATH=$PATH:/usr/local/go/bin' >> /home/$USER/.zshrc
+}
+
+installNode() {
+	echo "========================================"
+	echo "Installing node and npm.."
+	apt-get install nodejs
+	curl -L https://npmjs.org/install.sh | sh
+}
+
+#
 # Editors
 #
 
@@ -159,7 +181,7 @@ installUtilities(){
 installTerraform(){
 	echo "========================================"
 	echo "Installing Terraform.."
-	curl https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip > /tmp/terraform.zip
+	curl https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip > /tmp/terraform.zip
 	unzip /tmp/terraform.zip
 	mv -f terraform /usr/bin/terraform
 }
@@ -197,25 +219,29 @@ installDockerCompose(){
 
 # Base packages
 upgradeBase
-installVBGuest
-installOthers
-installZsh
+#installVBGuest
+#installOthers
+#installZsh
 
 # GUI
-installXfce4
-installI3
+#installXfce4
+#installI3
+
+# Languages
+#installGolang
+#installNode
 
 # Editors
-installVSCode
-installJetbrainsPycharm
-installJetbrainsDatagrip
+#installVSCode
+#installJetbrainsPycharm
+#installJetbrainsDatagrip
 
 # Applications
-installBrowsers
-installCollaboration
-installUtilities
+#installBrowsers
+#installCollaboration
+#installUtilities
 
 # Infrastructure
-installTerraform
-installDocker
-installDockerCompose
+#installTerraform
+#installDocker
+#installDockerCompose
